@@ -1,0 +1,28 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{@apply bg-bg text-white font-sans antialiased}
+@layer components{
+ .panel{@apply rounded-2xl border border-line bg-panel}
+ .eyebrow{@apply text-[11px] font-bold uppercase tracking-[.2em] text-brand}
+ .h2{@apply mt-2 text-3xl font-bold tracking-tight md:text-5xl}
+ .sub{@apply mt-3 max-w-xl text-sm text-white/70 md:text-base}
+ .btn{@apply inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-sm font-bold transition duration-300 hover:-translate-y-0.5 md:w-auto}
+ .btn-p{@apply btn text-white shadow-[0_8px_30px_-8px_rgba(240,107,176,.6)];background-image:linear-gradient(90deg,#9d3fc4,#e0307f)}
+ .btn-g{@apply btn border border-line bg-panel hover:border-brand/60}
+ .chip{@apply shrink-0 whitespace-nowrap rounded-full border border-line bg-panel px-4 py-2 text-xs font-semibold text-white/70 transition hover:text-white}
+ .chip[aria-selected=true]{@apply border-transparent text-white;background-image:linear-gradient(90deg,#9d3fc4,#e0307f)}
+ .tag{@apply rounded-md border border-line bg-bg/80 px-2 py-1 text-[10px] font-bold tracking-widest backdrop-blur}
+}
+.grad-text{background:linear-gradient(180deg,#f9a8d4,#f06bb0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.noscroll::-webkit-scrollbar{display:none}.noscroll{scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes draw{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+@keyframes blink{50%{opacity:.35}}
+@keyframes glow{50%{box-shadow:0 8px 40px -4px rgba(240,107,176,.8)}}
+@keyframes zoom{from{transform:scale(1.07)}to{transform:scale(1)}}
+.fade-up{opacity:0;animation:fadeUp .8s cubic-bezier(.2,.7,.2,1) forwards}
+.d1{animation-delay:.12s}.d2{animation-delay:.24s}.d3{animation-delay:.36s}.d4{animation-delay:.48s}
+.draw{stroke-dasharray:400;animation:draw 2s ease-out .4s both}
+.blink{animation:blink 1.6s infinite}.glow{animation:glow 2.6s infinite}.hero-img{animation:zoom 1.8s ease-out both}
+@supports (animation-timeline:view()){.reveal{animation:fadeUp linear both;animation-timeline:view();animation-range:entry 0% cover 25%}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;opacity:1!important}}
