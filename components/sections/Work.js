@@ -157,11 +157,13 @@ export default function Work() {
                     className="relative w-full overflow-hidden rounded-xl border border-line bg-black"
                     style={{ aspectRatio: open.ratio }}
                   >
-                    {/* preload none + poster: الفيديو مش بيتحمّل غير لما تدوس play */}
                     <video
                       src={src}
                       poster={poster(src)}
                       controls
+                      controlsList="nodownload noplaybackrate"
+                      disablePictureInPicture
+                      onContextMenu={(e) => e.preventDefault()}
                       playsInline
                       preload="none"
                       onPlay={pauseOthers}
