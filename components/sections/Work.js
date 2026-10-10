@@ -9,6 +9,9 @@ const ZoomModal = dynamic(() => import("@/components/ui/ZoomModal"), {
 });
 const LIMIT = 6;
 
+// صورة الغلاف بتتولّد جنب الفيديو: 1.mp4 -> 1.jpg (بسكريبت optimize-media)
+const poster = (src) => src.replace(/\.mp4$/i, ".jpg");
+
 const pauseOthers = (e) =>
   document
     .querySelectorAll("#work dialog video")
@@ -76,22 +79,21 @@ export default function Work() {
               className="relative block w-full overflow-hidden bg-black"
               style={{ aspectRatio: w.ratio }}
             >
-              {w.kind === "video" ? (
-                <video
-                  src={`${w.media[0]}#t=0.5`}
-                  muted
-                  playsInline
-                  preload="metadata"
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-              ) : (
-                <Image
-                  src={w.media[0]}
-                  alt={`${w.title} – ${w.sub}`}
-                  fill
-                  sizes="(min-width:768px) 33vw, 50vw"
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                />
+              {/* صورة خفيفة بدل <video> عشان متحملش الفيديوهات مع فتح الصفحة */}
+              <Image
+                src={w.kind === "video" ? poster(w.media[0]) : w.media[0]}
+                alt={`${w.title} – ${w.sub}`}
+                fill
+                sizes="(min-width:768px) 33vw, 50vw"
+                className="object-cover transition duration-500 group-hover:scale-105"
+              />
+              {w.kind === "video" && (
+                <span
+                  aria-hidden="true"
+                  className="absolute left-1/2 top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-black/55 text-white backdrop-blur"
+                >
+                  ▶
+                </span>
               )}
               <span className="tag absolute bottom-2 right-2 text-white/80">
                 {w.media.length} {w.kind === "video" ? "VIDEOS" : "FILES"}
@@ -155,16 +157,17 @@ export default function Work() {
                     className="relative w-full overflow-hidden rounded-xl border border-line bg-black"
                     style={{ aspectRatio: open.ratio }}
                   >
+                    {/* preload none + poster: الفيديو مش بيتحمّل غير لما تدوس play */}
                     <video
+                      src={src}
+                      poster={poster(src)}
                       controls
                       playsInline
-                      preload="metadata"
+                      preload="none"
                       onPlay={pauseOthers}
                       aria-label={`${open.title} video ${i + 1}`}
                       className="h-full w-full object-contain"
-                    >
-                      <source src={`${src}#t=0.1`} type="video/mp4" />
-                    </video>
+                    />
                   </div>
                 ))}
               </div>
